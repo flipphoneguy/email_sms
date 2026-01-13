@@ -44,7 +44,7 @@ function doPost(e) {
     if (command === "-list" || command === "-ls") return handleList(args.slice(1));
     if (command === "-read" || command === "-r") return handleRead(args);
     if (command === "-reply" || command === "-re") return handleReply(text);
-    if (command === "-send") return handleSendNew(text);
+    if (command.startsWith("-send")) return handleSendNew(text);
     if (command === "-delete" || command === "-del") return handleDelete(args[1]);
     if (command === "-move" || command === "-mv") return handleMove(text);
     if (command === "-mark") return handleMark(args[1], args[2]);
@@ -435,7 +435,7 @@ function send(text) {
     const limit = Math.min(chunks.length, 25);
     
     for (let i = 0; i < limit; i++) {
-      let chunk = chunks[i].trim() + ` [${i}/${limit}]`;
+      let chunk = chunks[i].trim() + ` [${i+1}/${limit}]`;
       if (!chunk) continue;
       
       if (i === limit - 1 && chunks.length > 25) {
@@ -508,7 +508,7 @@ You can combine multiple terms e.g. '-search is:unread has:attachment in:inbox 8
 -mute / -unmute : Toggle auto-notifications
 -silence [sender@email.com] : Block specific sender
 -timezone [Region/City] : Set TZ (Ex: America/New_York)
--sendmode split : SMS friendly
+-sendmode split : SMS friendly (sucks)
 -sendmode normal : Default
 -check : Force check
 
