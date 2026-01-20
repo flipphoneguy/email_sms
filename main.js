@@ -67,8 +67,18 @@ function checkForNewEmails() {
   
   // Create label if it doesn't exist
   let label = GmailApp.getUserLabelByName(labelName);
-  if (!label) label = GmailApp.createLabel(labelName);
-
+  if (!label) {
+    label = GmailApp.createLabel(labelName);
+    // Process in batches of 100 to prevent timeouts
+    let batch;
+    do {
+      batch = GmailApp.search(`in:inbox is:unread -label:${labelName}`, 0, 100);
+      if (batch.length > 0) {
+        label.addToThreads(batch); // Tag them so the next part ignores them
+        Utilities.sleep(500);     // Brief pause for API safety
+      }
+    } while (batch.length === 100);
+  }
   // Search for unread, un-notified emails in inbox
   const threads = GmailApp.search(`in:inbox is:unread -label:${labelName}`);
   let count = 0;
