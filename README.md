@@ -2,6 +2,8 @@
 
 This tool connects your Gmail account to a private GroupMe chat. It functions as a secure bridge, allowing you to read, search, and reply to emails entirely via text message (SMS).
 
+**NOTE: GroupMe is unfortonutely closing down SMS access. Maybe 1 day I'll redo this with Google Voice, but as of now this is archived.
+
 ## Features
 
 * **Real-time Notifications:** Receive new email alerts instantly.
